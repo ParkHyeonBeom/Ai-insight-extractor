@@ -1,19 +1,64 @@
-# docker-compose.yml
-
 version: '3.8'
 
 services:
+  # PostgreSQL 데이터베이스 서비스
   db:
     image: postgres:13
     container_name: newsletter_db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    # Django settings.py에서 사용할 DB 연결 정보
     environment:
       - POSTGRES_USER=myuser
       - POSTGRES_PASSWORD=mypassword
       - POSTGRES_DB=newsletter_db
     ports:
       - "5432:5432"
+
+  # Redis 서비스 (Celery 메시지 브로커용)
+  redis:
+    image: redis:7-alpine
+    container_name: newsletter_redis
+    ports:
+      - "6379:6379"
+
+  # Django 웹 서버 서비스
+  web:
+    build: .
+    container_name: newsletter_web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    # 이 서비스가 db와 redis에 의존함을 명시
+    depends_on:
+      - db
+      - redis
+    # 컨테이너 내부에서 사용할 환경변수
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=newsletter_db
+      - POSTGRES_HOST=db # Django가 db 컨테이너를 찾을 수 있도록 호스트 이름 명시
+
+  # Celery 워커 서비스
+  celery:
+    build: .
+    container_name: newsletter_celery
+    command: celery -A config worker -l info
+    volumes:
+      - .:/app
+    # 이 서비스 또한 db와 redis에 의존
+    depends_on:
+      - db
+      - redis
+    # 컨테이너 내부에서 사용할 환경변수
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=newsletter_db
+      - POSTGRES_HOST=db
 
 volumes:
   postgres_data:
