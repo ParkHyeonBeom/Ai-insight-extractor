@@ -1,0 +1,35 @@
+# 가상환경 폴더
+venv/
+env/
+
+# 파이썬 캐시 파일
+__pycache__/
+*.pyc
+
+# 민감한 정보 파일 (API 키, 비밀번호 등)
+.env
+*.env
+
+# IDE 및 OS 관련 파일
+.idea/
+.vscode/
+.DS_Store
+*.swo
+
+# 빌드 및 배포 관련
+/dist
+/build
+*.egg-info/
+
+# 로그 파일
+*.log
+
+# 데이터베이스 파일 (개발용)
+db.sqlite3
+*.sqlite3
+
+# 미디어 파일 (사용자가 업로드한 파일)
+/media/
+
+# 생성된 아키텍처 이미지 (버전 관리 불필요 시)
+# architecture_logo.png
