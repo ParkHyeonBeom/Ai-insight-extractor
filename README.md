@@ -23,20 +23,20 @@ AI를 활용하여 웹 콘텐츠를 분석하고, RAG(Retrieval-Augmented Genera
 
 ```mermaid
 graph TD
-    A[👨‍💻 User] -- 1. URL/Text 입력 --> B{Django REST API};
-    B -- 2. 분석 요청 (Async) --> C[Celery Worker];
-    C -- 3. 콘텐츠 스크래핑/처리 --> D[Text Processing];
-    D -- 4. 텍스트 분할 --> E[Chunking];
-    E -- 5. 텍스트 임베딩 --> F[Embedding Model];
-    F -- 6. 벡터 저장 --> G[(Vector DB: Chroma)];
+    A[👨‍💻 User] -- 1.URL/Text 입력 --> B{Django REST API};
+    B -- 2.분석 요청 (Async) --> C[Celery Worker];
+    C -- 3.콘텐츠 스크래핑/처리 --> D[Text Processing];
+    D -- 4.텍스트 분할 --> E[Chunking];
+    E -- 5.텍스트 임베딩 --> F[Embedding Model];
+    F -- 6.벡터 저장 --> G[(Vector DB: Chroma)];
     subgraph RAG Pipeline
-        C -- 7. 요약/인사이트 생성 요청 --> H{LangChain};
-        H -- 8. 유사도 높은 정보 검색 --> G;
-        H -- 9. 정보 + 프롬프트 조합 --> I[LLM API];
-        I -- 10. 생성된 결과 반환 --> H;
+        C -- 7.요약/인사이트 생성 요청 --> H{LangChain};
+        H -- 8.유사도 높은 정보 검색 --> G;
+        H -- 9.정보 + 프롬프트 조합 --> I[LLM API];
+        I -- 10.생성된 결과 반환 --> H;
     end
-    H -- 11. 최종 결과 --> C;
-    C -- 12. 결과 DB 저장 --> J[(PostgreSQL)];
-    C -- 13. 이메일 초안 생성 --> K[📧 Email Service];
+    H -- 11.최종 결과 --> C;
+    C -- 12.결과 DB 저장 --> J[(PostgreSQL)];
+    C -- 13.이메일 초안 생성 --> K[📧 Email Service];
     B -- 즉시 응답 (작업 접수) --> A;
     J -- 결과 조회 API --> B;
