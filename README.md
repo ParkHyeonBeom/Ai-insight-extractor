@@ -22,3 +22,51 @@ AI를 활용하여 웹 콘텐츠를 분석하고, RAG(Retrieval-Augmented Genera
 ## 🏗️ 시스템 아키텍처
 
 ![시스템 아키텍처](architecture_logo.png)
+
+
+## 🛢️ ERD
+```mermaid
+erDiagram
+    USER  {
+        int id PK
+        string password
+        string username
+        string email UK
+        bool is_staff
+        bool is_active
+        bool is_superuser
+    }
+
+    NEWSLETTER  {
+        int id PK
+        int user_id FK
+        string title
+        text content
+        datetime created_at
+        datetime sent_at
+    }
+
+    USER_KEYWORD  {
+        int id PK
+        int user_id FK
+        int keyword_id FK
+    }
+
+    KEYWORD  {
+        int id PK
+        string name UK
+    }
+
+    ARTICLE  {
+        int id PK
+        int keyword_id FK
+        string title
+        string url UK
+        text content
+        datetime published_at
+    }
+
+    USER  ||--o{ NEWSLETTER  : "receives"
+    USER  ||--o{ USER_KEYWORD  : "has"
+    KEYWORD  ||--o{ USER_KEYWORD  : "is"
+    KEYWORD  ||--o{ ARTICLE  : "related to"
