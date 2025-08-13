@@ -70,14 +70,14 @@ class Migration(migrations.Migration):
                 ('content', models.TextField(verbose_name='내용')),
                 ('published_at', models.DateTimeField(verbose_name='게시일')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='생성일')),
-                ('keyword', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='api.keyword', verbose_name='키워드')),
+                ('keyword', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.keyword', verbose_name='키워드')),
             ],
         ),
         migrations.CreateModel(
             name='UserKeyword',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('keyword', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.keyword', verbose_name='키워드')),
+                ('keyword', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.keyword', verbose_name='키워드')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='사용자')),
             ],
             options={
