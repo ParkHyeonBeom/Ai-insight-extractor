@@ -21,7 +21,7 @@ AI를 활용하여 웹 콘텐츠를 분석하고, RAG(Retrieval-Augmented Genera
 
 ## 🏗️ 시스템 아키텍처
 
-![시스템 아키텍처](architecture_logo.png)
+![시스템 아키텍처](final_architecture_korean.png)
 
 
 ## 🛢️ ERD
