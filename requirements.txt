@@ -71,3 +71,4 @@ wcwidth==0.2.13
 requests
 beautifulsoup4
 openai
+ollama
