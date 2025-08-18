@@ -46,7 +46,7 @@ services:
   celery:
     build: .
     container_name: newsletter_celery
-    command: celery -A config worker -l info
+    command: celery -A config.celery:app worker -l info
     volumes:
       - .:/app
     # 이 서비스 또한 db와 redis에 의존
