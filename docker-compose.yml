@@ -25,6 +25,8 @@ services:
   # Django 웹 서버 서비스
   web:
     build: .
+    env_file:
+      - .env
     container_name: newsletter_web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -45,6 +47,8 @@ services:
   # Celery 워커 서비스
   celery:
     build: .
+    env_file:
+      - .env
     container_name: newsletter_celery
     command: celery -A config.celery:app worker -l info
     volumes:
