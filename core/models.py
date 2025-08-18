@@ -81,3 +81,20 @@ class Topic(models.Model):
         verbose_name = "관심 주제"
         verbose_name_plural = f"{verbose_name} 목록"
         ordering = ['-created_at']
+
+
+class Summary(models.Model):
+    article = models.OneToOneField(
+        Article,
+        on_delete=models.CASCADE,
+        verbose_name='원본 아티클'
+    )
+    summary_text = models.TextField(verbose_name='요약 내용')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+
+    def __str__(self):
+        return f"{self.article.title}의 요약"
+
+    class Meta:
+        verbose_name = "AI 요약"
+        verbose_name_plural = f"{verbose_name} 목록"
