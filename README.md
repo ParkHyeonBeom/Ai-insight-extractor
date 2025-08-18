@@ -27,7 +27,7 @@ AI를 활용하여 웹 콘텐츠를 분석하고, RAG(Retrieval-Augmented Genera
 ## 🛢️ ERD
 ```mermaid
 erDiagram
-    USER  {
+    USER {
         int id PK
         string password
         string username
@@ -37,7 +37,22 @@ erDiagram
         bool is_superuser
     }
 
-    NEWSLETTER  {
+    TOPIC {
+        int id PK
+        string name UK
+        datetime created_at
+    }
+
+    ARTICLE {
+        int id PK
+        int topic_id FK
+        string title
+        string url UK
+        text content
+        datetime published_at
+    }
+    
+    NEWSLETTER {
         int id PK
         int user_id FK
         string title
@@ -46,27 +61,15 @@ erDiagram
         datetime sent_at
     }
 
-    USER_KEYWORD  {
+    SUMMARY {
         int id PK
-        int user_id FK
-        int keyword_id FK
+        int article_id FK
+        text summary_text
+        datetime created_at
     }
 
-    KEYWORD  {
-        int id PK
-        string name UK
-    }
-
-    ARTICLE  {
-        int id PK
-        int keyword_id FK
-        string title
-        string url UK
-        text content
-        datetime published_at
-    }
-
-    USER  ||--o{ NEWSLETTER  : "receives"
-    USER  ||--o{ USER_KEYWORD  : "has"
-    KEYWORD  ||--o{ USER_KEYWORD  : "is"
-    KEYWORD  ||--o{ ARTICLE  : "related to"
+    USER ||--o{ NEWSLETTER : "receives"
+    USER }o--o{ TOPIC : "subscribes to"
+    TOPIC ||--o{ ARTICLE : "is about"
+    ARTICLE ||--|{ SUMMARY : "is summarized as"
+    NEWSLETTER }o--o{ ARTICLE : "contains"
